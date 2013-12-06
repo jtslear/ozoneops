@@ -1,0 +1,7 @@
+[jenkins]
+name=Jenkins
+baseurl=http://pkg.jenkins-ci.org/redhat/
+enabled = 0
+protect = 0
+gpgkey = file:///etc/pki/rpm-gpg/jenkins-ci.org.key
+gpgcheck = 1

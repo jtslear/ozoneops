@@ -1,0 +1,41 @@
+- name: Create a user for running Nexus
+  user: name=nexus
+  tags:
+    - nexus
+
+- name: Download the standalone Nexus OSS bundle
+  get_url: url=http://www.sonatype.org/downloads/nexus-2.6.4-bundle.tar.gz dest=/tmp/
+  register: download
+  tags:
+    - nexus
+
+- name: Create Nexus directories
+  file: state=directory path={{ item }} owner=nexus group=nexus
+  with_items:
+    - /usr/local/nexus
+    - /usr/local/sonatype-work
+    - /usr/local/sonatype-work/nexus
+  tags:
+    - nexus
+
+- name: Untar the Nexus bundle
+  shell: /bin/tar xvzf /tmp/nexus-2.6.4-bundle.tar.gz -C /usr/local/nexus --exclude sonatype-work --strip-components 1
+  when: download.changed
+  tags:
+    - nexus
+
+- name: Ensure the correct permissions on the Nexus directory
+  file: state=directory path=/usr/local/nexus owner=nexus group=nexus recurse=yes
+  tags:
+    - nexus
+
+- name: Install the Nexus init script
+  copy: src=nexus dest=/etc/init.d/ mode=0755 owner=root group=root
+  notify: restart nexus
+  tags:
+    - nexus
+
+- name: Ensure Nexus is started
+  service: name=nexus state=started enabled=yes
+  tags:
+    - nexus

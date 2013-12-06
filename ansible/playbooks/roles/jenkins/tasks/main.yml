@@ -1,0 +1,30 @@
+---
+
+- name: Create the jenkins repo
+  copy: src=jenkins.repo dest=/etc/yum.repos.d
+  tags:
+    - jenkins
+
+- name: Create GPG key for the jenkins repo
+  copy: src=jenkins-ci.org.key dest=/etc/pki/rpm-gpg
+  tags:
+    - jenkins
+
+- name: Install jenkins
+  yum: pkg=jenkins state=latest enablerepo=jenkins
+  tags:
+    - jenkins
+
+- name: Start jenkins
+  service: name=jenkins state=started enabled=yes
+  tags:
+    - jenkins
+
+- name: Wait for jenkins to initialize
+  wait_for: delay=10 port=8080 state=started timeout=360
+
+- name: Install thinBackup plugin
+  get_url: url=http://updates.jenkins-ci.org/latest/thinBackup.hpi dest=/var/lib/jenkins/plugins/ mode=644 owner=jenkins group=jenkins
+  notify: restart jenkins
+  tags:
+    - jenkins

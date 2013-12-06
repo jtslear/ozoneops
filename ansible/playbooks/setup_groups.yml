@@ -1,0 +1,48 @@
+---
+
+- name: EC2 Security Groups
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: Create Security Group for CI Servers
+      local_action:
+        module: ec2_group
+        name: commonRules
+        description: Common ruleset for all instances
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+    - name: Create Security Group for Web Application Servers
+      local_action:
+        module: ec2_group
+        name: appServers
+        description: Ruleset for web application servers, such as tomcat
+        rules:
+          - proto: tcp
+            from_port: 8080
+            to_port: 8080
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 8443
+            to_port: 8443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 8081
+            to_port: 8081
+            cidr_ip: 0.0.0.0/0
+    - name: Create Security Group for Web Servers
+      local_action:
+        module: ec2_group
+        name: webServers
+        description: Rulset for web servers, such as httpd
+        rules:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0

@@ -1,0 +1,28 @@
+---
+
+- name: Create the EPEL repo
+  copy: src=epel.repo dest=/etc/yum.repos.d
+  tags:
+    - common
+
+- name: Create GPG key for the EPEL repo
+  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+  tags:
+    - common
+
+- name: Install Pip
+  easy_install: name=pip
+  tags:
+    - common
+    - python_utils
+
+- name: Install common packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - git-all
+    - unzip
+    - curl
+    - wget
+    - nc
+  tags:
+    - common

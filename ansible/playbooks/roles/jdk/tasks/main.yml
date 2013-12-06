@@ -1,0 +1,23 @@
+---
+
+- name: Install OpenJDK Packages for Java 6 and 7
+  yum: name={{ item }} state=present
+  with_items:
+    - java-1.6.0-openjdk
+    - java-1.6.0-openjdk-devel
+    - java-1.7.0-openjdk
+    - java-1.7.0-openjdk-devel
+  tags:
+    - jdk
+
+- name: Set Java 6 as the current jdk
+  shell: alternatives --set java /usr/lib/jvm/jre-1.6.0-openjdk.x86_64/bin/java
+  when: jdk_version == 6
+  tags:
+    - jdk
+
+- name: Set Java 7 as the current jdk
+  shell: alternatives --set java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java
+  when: jdk_version == 7
+  tags:
+    - jdk

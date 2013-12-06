@@ -1,0 +1,47 @@
+---
+
+- include: setup_groups.yml
+
+- name: Create EC2 Instances
+  hosts: 127.0.0.1
+  connection: local
+  roles:
+    - role: ec2
+      ec2_instance_tags: '{"Name": "Jenkins CI Server"}'
+      ec2_groups: 'commonRules,appServers'
+      ansible_host_group: transient_ci_servers
+    - role: ec2
+      ec2_instance_tags: '{"Name": "Ozone Build Server"}'
+      ec2_groups: 'commonRules,appServers'
+      ec2_count: 4
+      ansible_host_group: transient_artifact_servers
+
+- name: Setup Jenkins CI Servers
+  hosts: transient_ci_servers
+  user: ec2-user
+  sudo: yes
+  roles:
+    - common
+    - ansible
+    - mysql_client
+    - role: jdk
+      jdk_version: 6
+    - build_java
+    - build_css
+    - build_js
+    - jenkins
+    - httpd
+
+- name: Setup Jenkins CI Servers
+  hosts: transient_ci_servers
+  user: ec2-user
+  sudo: yes
+  roles:
+    - common
+    - ansible
+    - mysql_client
+    - role: jdk
+      jdk_version: 6
+    - build_java
+    - build_css
+    - build_js

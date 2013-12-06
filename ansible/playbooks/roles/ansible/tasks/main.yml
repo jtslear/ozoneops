@@ -1,0 +1,20 @@
+---
+
+- name: Install packages - Common
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - python-devel
+  tags:
+    - ansible
+
+- name: Install Ansible
+  pip: name={{ item }} state=latest
+  with_items:
+    - paramiko
+    - PyYAML
+    - jinja2
+    - boto
+    - ansible
+  tags:
+    - ansible
