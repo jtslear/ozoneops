@@ -5,6 +5,6 @@
   user: "{{ ansible_local.ozone.user }}"
   sudo: yes
   roles:
-    - common
-    - role: jdk
+    - ../roles/common
+    - role: ../roles/jdk
       jdk_version: 6

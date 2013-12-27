@@ -6,7 +6,7 @@
   hosts: 127.0.0.1
   connection: local
   roles:
-    - role: ec2
+    - role: ../roles/ec2
       ec2_instance_tags: '{"Name": "Nexus Artifact Server"}'
       ec2_groups: 'commonRules,appServers'
       ansible_host_group: transient_artifact_servers
@@ -16,7 +16,7 @@
   user: ec2-user
   sudo: yes
   roles:
-    - common
-    - role: jdk
+    - ../roles/common
+    - role: ../roles/jdk
       jdk_version: 7
-    - nexus
+    - ../roles/nexus
