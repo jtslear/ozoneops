@@ -17,7 +17,7 @@
     - common
 
 - name: Install common packages
-  yum: name={{ item }} state=latest enablerepo=rmpforge-extras,epel
+  yum: name={{ item }} state=latest enablerepo=rpmforge-extras,epel
   with_items:
     - git
     - python-devel
