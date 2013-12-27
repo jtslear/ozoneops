@@ -6,11 +6,11 @@
   hosts: 127.0.0.1
   connection: local
   roles:
-    - role: ec2
+    - role: ../roles/ec2
       ec2_instance_tags: '{"Name": "Jenkins CI Server"}'
       ec2_groups: 'commonRules,appServers'
       ansible_host_group: transient_ci_servers
-    - role: ec2
+    - role: ../roles/ec2
       ec2_instance_tags: '{"Name": "Ozone Build Server"}'
       ec2_groups: 'commonRules'
       ec2_count: 4
@@ -21,27 +21,27 @@
   user: ec2-user
   sudo: yes
   roles:
-    - common
-    - ansible
-    - mysql_client
-    - role: jdk
+    - ../roles/common
+    - ../roles/ansible
+    - ../roles/mysql_client
+    - role: ../roles/jdk
       jdk_version: 6
-    - build_java
-    - build_css
-    - build_js
-    - jenkins
-    - httpd
+    - ../roles/build_java
+    - ../roles/build_css
+    - ../roles/build_js
+    - ../roles/jenkins
+    - ../roles/httpd
 
 - name: Setup Jenkins Build Nodes
   hosts: transient_build_servers
   user: ec2-user
   sudo: yes
   roles:
-    - common
-    - ansible
-    - mysql_client
+    - ../roles/common
+    - ../roles/ansible
+    - ../roles/mysql_client
     - role: jdk
       jdk_version: 6
-    - build_java
-    - build_css
-    - build_js
+    - ../roles/build_java
+    - ../roles/build_css
+    - ../roles/build_js
