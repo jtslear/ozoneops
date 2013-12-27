@@ -2,7 +2,7 @@
 
 - name: Setup the Ozone Build Environment
   hosts: 127.0.0.1
-  user: {{ ansible_local.ozone.user }}
+  user: "{{ ansible_local.ozone.user }}"
   sudo: yes
   roles:
     - ../roles/common
