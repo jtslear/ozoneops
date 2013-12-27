@@ -16,7 +16,7 @@
 
 # RPM created using the spec found at: https://github.com/imeyer/ruby-1.9.3-rpm
 - name: Install Ruby
-  yum: name=https://dl.dropboxusercontent.com/u/8120141/ruby-1.9.3p484-1.el6.x86_64.rpm state=present
+  yum: name=https://dl.dropboxusercontent.com/u/8120141/ruby-1.9.3p484-1.el6.x86_64.rpm state=present enablerepo=epel
   tags:
     - build_css
     - ruby
