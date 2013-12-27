@@ -8,3 +8,6 @@
     - ../roles/common
     - role: ../roles/jdk
       jdk_version: 6
+    - ../roles/build_java
+    - ../roles/build_css
+    - ../roles/build_js

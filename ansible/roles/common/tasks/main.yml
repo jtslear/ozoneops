@@ -1,25 +1,27 @@
 ---
 
-- name: Create the EPEL repo
-  copy: src=epel.repo dest=/etc/yum.repos.d
+- name: Create repos
+  copy: src={{ item }} dest=/etc/yum.repos.d
+  with_items:
+    - epel.repo
+    - rpmforge.repo
   tags:
     - common
 
-- name: Create GPG key for the EPEL repo
-  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+- name: Create GPG keys for repos
+  copy: src={{ item }} dest=/etc/pki/rpm-gpg
+  with_items:
+    - RPM-GPG-KEY-EPEL-6
+    - RPM-GPG-KEY-rpmforge-dag
   tags:
     - common
-
-- name: Install Pip
-  easy_install: name=pip
-  tags:
-    - common
-    - python_utils
 
 - name: Install common packages
-  yum: name={{ item }} state=latest
+  yum: name={{ item }} state=latest enablerepo=rmpforge-extras,epel
   with_items:
-    - git-all
+    - git
+    - python-devel
+    - python-pip
     - unzip
     - curl
     - wget
