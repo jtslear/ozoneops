@@ -1,0 +1,7 @@
+<sec:intercept-url pattern="/js-lib/ext-*/**" filters="none"/>
+<sec:intercept-url pattern="/themes/common/images/logout/**" filters="none" />
+<sec:intercept-url pattern="/logout.jsp" filters="none" />
+<sec:intercept-url pattern="/marketplace/sync/**" filters="none" />
+<sec:intercept-url pattern="/administration/monitoring" access="ROLE_ADMIN" />
+<sec:intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
+<sec:intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN" />

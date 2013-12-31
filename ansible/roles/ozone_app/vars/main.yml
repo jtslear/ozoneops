@@ -1,0 +1,22 @@
+---
+
+app_security_context:
+  sample_basic:
+    file: sampleSecurityBasic.xml
+
+app_db_properties:
+  mysql:
+    validation_query: SELECT 1
+    driver: com.mysql.jdbc.Driver
+    url_prefix: "jdbc:mysql://"
+    driver_url: http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.27/mysql-connector-java-5.1.27.jar
+
+app_properties:
+  owf:
+    security_file: OWFsecurityContext.xml
+    default_context: owf
+    external_config_file: OwfConfig.groovy
+  mp:
+    security_file: MPsecurityContext.xml
+    default_context: marketplace
+    external_config_file: MarketplaceConfig.groovy

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         {% if ansible_local.ozone.app.name == "owf"%}
+         name="owf-cache"
+         updateCheck="false"
+         {% endif %} >
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <cacheManagerEventListenerFactory class="" properties=""/>
+
+    <cacheManagerPeerListenerFactory
+                  class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+                  properties="hostName=127.0.0.1,port=40001" />
+
+    <cacheManagerPeerProviderFactory
+                  class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+                  properties="peerDiscovery=manual,rmiUrls=//127.0.0.1:4001" />
+
+
+    {% if ansible_local.ozone.app.name == "mp" %}
+    <defaultCache maxElementsInMemory="100000"
+                  eternal="false"
+                  timeToLiveSeconds="1200"
+                  overflowToDisk="false"
+                  memoryStoreEvictionPolicy="LRU">
+
+        <cacheEventListenerFactory
+                  class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+    </defaultCache>
+
+    <cache name="marketplace.configuration.ApplicationConfiguration"
+           maxElementsInMemory="1000"
+           eternal="true">
+
+        <cacheEventListenerFactory 
+                  class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+    </cache>
+    {% endif %}
+
+    {% if ansible_local.ozone.app.name == "owf" %}
+    <defaultCache
+        maxElementsInMemory="10000"
+        eternal="false"
+        timeToLiveSeconds="120"
+        overflowToDisk="true" >
+        <cacheEventListenerFactory
+                  class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+
+    </defaultCache>
+    {% endif %}
+
+    <!-- Caches required by the security project for sharing security information between
+         cluster nodes. Do not modify these settings -->
+    <cache name="sessionIds"
+            maxElementsInMemory="100000"
+            eternal="true"
+            overflowToDisk="false">
+            
+        <cacheEventListenerFactory
+                  class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+    </cache>
+
+    <cache name="allowedSessions"
+           maxElementsInMemory="1"
+           eternal="true"
+           overflowToDisk="false">
+
+        <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" />
+    </cache>
+    
+</ehcache>
