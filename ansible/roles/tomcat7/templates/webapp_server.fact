@@ -1,5 +1,5 @@
 {
-    'wait_port': {{ tomcat_server_port }},
+    'wait_port': 8005,
     'service_name': 'tomcat',
     'owner': 'tomcat',
     'group': 'tomcat',
