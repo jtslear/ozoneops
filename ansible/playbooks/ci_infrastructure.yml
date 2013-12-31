@@ -24,8 +24,10 @@
     - ../roles/common
     - ../roles/ansible
     - ../roles/mysql_client
+    - role: ../roles/jre
+      java_version: 6
     - role: ../roles/jdk
-      jdk_version: 6
+      java_version: 6
     - ../roles/build_java
     - ../roles/build_css
     - ../roles/build_js
@@ -40,8 +42,10 @@
     - ../roles/common
     - ../roles/ansible
     - ../roles/mysql_client
+    - role: ../roles/jre
+      java_version: 6
     - role: jdk
-      jdk_version: 6
+      java_version: 6
     - ../roles/build_java
     - ../roles/build_css
     - ../roles/build_js

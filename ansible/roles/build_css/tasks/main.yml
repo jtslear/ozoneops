@@ -1,19 +1,5 @@
 ---
 
-# Ruby 1.9 is available as a package on AWS amazon-linux
-
-#- name: Install Ruby Package
-#  yum: name=ruby19 state=present
-#  tags:
-#    - build_css
-#    - ruby
-
-#- name: Set the System Ruby to 1.9
-#  shell: alternatives --set ruby /usr/bin/ruby1.9
-#  tags:
-#    - build_css
-#    - ruby
-
 # RPM created using the spec found at: https://github.com/imeyer/ruby-1.9.3-rpm
 - name: Install Ruby
   yum: name=https://dl.dropboxusercontent.com/u/8120141/ruby-1.9.3p484-1.el6.x86_64.rpm state=present enablerepo=epel

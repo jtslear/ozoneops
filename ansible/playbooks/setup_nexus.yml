@@ -17,6 +17,6 @@
   sudo: yes
   roles:
     - ../roles/common
-    - role: ../roles/jdk
-      jdk_version: 7
+    - role: ../roles/jre
+      java_version: 7
     - ../roles/nexus
