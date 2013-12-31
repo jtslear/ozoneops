@@ -1,0 +1,8 @@
+{
+    'wait_port': {{ tomcat_server_port }},
+    'service_name': 'tomcat',
+    'owner': 'tomcat',
+    'group': 'tomcat',
+    'webapp_path': '/usr/share/tomcat/webapps',
+    'classpath': '/usr/share/tomcat/lib'
+}
