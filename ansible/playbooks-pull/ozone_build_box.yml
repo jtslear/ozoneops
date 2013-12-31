@@ -6,8 +6,11 @@
   sudo: yes
   roles:
     - ../roles/common
+    - role: ../roles/jre
+      java_version: 6
     - role: ../roles/jdk
-      jdk_version: 6
+      java_version: 6
     - ../roles/build_java
     - ../roles/build_css
     - ../roles/build_js
+    - ../roles/tomcat7
