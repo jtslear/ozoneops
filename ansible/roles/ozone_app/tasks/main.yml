@@ -20,7 +20,7 @@
         owner=tomcat
         group=tomcat
         mode=0660
-  when: {{ ozone_app_name }} is 'mp'
+  when: ozone_app_name is 'mp'
   tags:
     - ozone_app
 

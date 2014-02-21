@@ -19,6 +19,6 @@
     - role: ../roles/jre
       java_version: 6
     - ../roles/tomcat7
-    - role: ../roles/ozoneapp
+    - role: ../roles/ozone_app
       ozone_app_war_url: 'http://amlci01.goss.owfgoss.org:8080/jenkins/view/wars/job/war-franchise-store/lastSuccessfulBuild/artifact/target/marketplace.war' 
       ozone_app_name: 'mp'
