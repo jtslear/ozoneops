@@ -20,16 +20,10 @@
   yum: name={{ item }} state=latest enablerepo=rpmforge-extras,epel
   with_items:
     - git
-    - python-devel
     - gcc
     - unzip
     - curl
     - wget
     - nc
-  tags:
-    - common
-
-- name: Install pip
-  easy_install: name=pip
   tags:
     - common

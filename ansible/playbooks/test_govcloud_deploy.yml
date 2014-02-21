@@ -1,35 +1,14 @@
 ---
 
-#- name: Create EC2 Instances
-#  hosts: 127.0.0.1
-#  connection: local
-#  tasks:
-#  - name: Launch instances
-#    local_action:
-#      module: ec2
-#      keypair: rszewczyk_ncc
-#      group: ['aml_common', 'aml_tomcat_server']
-#      instance_type: t1.micro
-#      image: ami-97fb9fb4
-#      count: 1
-#      instance_tags: '{"Name": "AML Ansible Deploy Test"}'
-#      wait: yes
-#      vpc_subnet_id: subnet-406d6522
-#    register: ec2
-
 - name: Create EC2 Instances
   hosts: 127.0.0.1
   connection: local
   roles:
     - role: ../roles/ec2
-      ec2_instance_tags: '{"Name": "AML Jenkins CI Server"}'
+      ec2_instance_tags: '{"Name": "amljenkins"}'
       ec2_groups: ['aml_common', 'aml_tomcat_server']
+      ec2_instance_type: m1.small
       ansible_host_group: transient_ci_servers
-    - role: ../roles/ec2
-      ec2_instance_tags: '{"Name": "AML Build Server"}'
-      ec2_groups: 'aml_common'
-      ec2_count: 4
-      ansible_host_group: transient_build_servers
 
 - name: Setup Jenkins CI Servers
   hosts: transient_ci_servers
@@ -43,24 +22,4 @@
       java_version: 6
     - role: ../roles/jdk
       java_version: 6
-    - ../roles/build_java
-    - ../roles/build_css
-    - ../roles/build_js
     - ../roles/jenkins
-    - ../roles/httpd
-
-- name: Setup Jenkins Build Nodes
-  hosts: transient_build_servers
-  user: ec2-user
-  sudo: yes
-  roles:
-    - ../roles/common
-    - ../roles/ansible
-    - ../roles/mysql_client
-    - role: ../roles/jre
-      java_version: 6
-    - role: ../roles/jdk
-      java_version: 6
-    - ../roles/build_java
-    - ../roles/build_css
-    - ../roles/build_js

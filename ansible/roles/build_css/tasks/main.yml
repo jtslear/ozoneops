@@ -1,20 +1,21 @@
 ---
 
-# RPM created using the spec found at: https://github.com/imeyer/ruby-1.9.3-rpm
-- name: Install Ruby
-  yum: name=https://dl.dropboxusercontent.com/u/8120141/ruby-1.9.3p484-1.el6.x86_64.rpm state=present enablerepo=epel
+- name: Install Ruby Package
+  yum: name=ruby19 state=present
   tags:
     - build_css
-    - ruby
+
+- name: Set the System Ruby to 1.9
+  shell: alternatives --set ruby /usr/bin/ruby1.9
+  tags:
+    - build_css
 
 - name: Install Sass
   gem: name=sass version=3.1.3 state=present user_install=no
   tags:
     - build_css
-    - sass
 
 - name: Install Compass
   gem: name=compass version=0.11.7 state=present user_install=no
   tags:
     - build_css
-    - compass
