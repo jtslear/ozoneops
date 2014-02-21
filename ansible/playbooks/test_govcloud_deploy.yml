@@ -20,5 +20,5 @@
       java_version: 6
     - ../roles/tomcat7
     - role: ../roles/ozoneapp
-      app_url: 'http://amlci01.goss.owfgoss.org:8080/jenkins/view/wars/job/war-franchise-store/lastSuccessfulBuild/artifact/target/marketplace.war' 
-      app_name: 'mp'
+      ozone_app_war_url: 'http://amlci01.goss.owfgoss.org:8080/jenkins/view/wars/job/war-franchise-store/lastSuccessfulBuild/artifact/target/marketplace.war' 
+      ozone_app_name: 'mp'
