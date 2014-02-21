@@ -1,12 +1,18 @@
 environments {
     production {
         dataSource {
-            dbCreate = "none"
-            username = "{{ ansible_local.ozone.dataSource.username }}"
-            password = "{{ ansible_local.ozone.dataSource.password }}"
-            driverClassName = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].driver }}"
-            url = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].url_prefix }}{{ ansible_local.ozone.app.dataSource.host }}/{{ ansible_local.ozone.dataSource.schema }}"
+            //dbCreate = "none"
+            //username = "{{ ansible_local.ozone.dataSource.username }}"
+            //password = "{{ ansible_local.ozone.dataSource.password }}"
+            //driverClassName = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].driver }}"
+            //url = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].url_prefix }}{{ ansible_local.ozone.app.dataSource.host }}/{{ ansible_local.ozone.dataSource.schema }}"
             pooled = true
+            pooled = true
+            driverClassName = "org.hsqldb.jdbcDriver"
+            username = "sa"
+            password = ""
+            dbCreate = "create-drop"
+            url = "jdbc:hsqldb:mem:devDB"
             properties {
                 minEvictableIdleTimeMillis = 180000
                 timeBetweenEvictionRunsMillis = 180000
@@ -14,12 +20,12 @@ environments {
                 testOnBorrow = true
                 testWhileIdle = true
                 testOnReturn = true
-                validationQuery = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].validation_query }}"
+                //validationQuery = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].validation_query }}"
             }
         }
         uiperformance.enabled = true
 
-        {% if ansible_local.ozone.app.name == "mp" %}
+        {% if ozone_app_name == "mp" %}
         elasticSearch {
             path.data = new File(
                     "/opt/ozone_store/searchable-index/"
@@ -40,7 +46,7 @@ environments {
     }
 }
 
-{% if ansible_local.ozone.app.name == "owf" %}
+{% if ozone_app_name == "owf" %}
 owf {
     log4jWatchTime = 180000;
     enablePendingApprovalWidgetTagGroup = false
