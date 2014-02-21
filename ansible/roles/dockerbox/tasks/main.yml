@@ -1,0 +1,7 @@
+---
+
+- name: Install Docker Package
+  yum: name=docker-io state=latest enablerepo=epel
+
+- name: Start/Enable Docker
+  service: name=docker state=started enabled=yes
