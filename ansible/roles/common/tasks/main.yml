@@ -21,10 +21,15 @@
   with_items:
     - git
     - python-devel
-    - python-pip
+    - gcc
     - unzip
     - curl
     - wget
     - nc
+  tags:
+    - common
+
+- name: Install pip
+  easy_install: name=pip
   tags:
     - common

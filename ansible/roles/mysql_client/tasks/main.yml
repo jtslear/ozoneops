@@ -1,14 +1,22 @@
 - name: Install packages - MySQL Client
   yum: name={{ item }} state=present
   with_items:
+    - gcc
+    - python-devel
     - mysql-devel
     - mysql
+  tags:
+    - mysql_client
+
+- name: Install pip
+  easy_install: name=pip
   tags:
     - mysql_client
 
 - name: Install MySQL Python - For interacting with mysql from playbooks
   pip: name={{ item }} state=latest
   with_items:
+    - setuptools
     - distribute
     - MySQL-python
   tags:

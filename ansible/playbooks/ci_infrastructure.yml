@@ -8,10 +8,12 @@
       ec2_instance_tags: '{"Name": "amljenkins"}'
       ec2_groups: ['aml_common', 'aml_tomcat_server']
       ansible_host_group: transient_ci_servers
+      instance_type: m1.small
     - role: ../roles/ec2
       ec2_instance_tags: '{"Name": "amlbuild"}'
       ec2_groups: 'aml_common'
       ansible_host_group: transient_build_servers
+      instance_type: m1.small
 
 - name: Setup Jenkins CI Servers
   hosts: transient_ci_servers
