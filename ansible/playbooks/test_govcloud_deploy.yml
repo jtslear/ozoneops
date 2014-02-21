@@ -5,21 +5,17 @@
   connection: local
   roles:
     - role: ../roles/ec2
-      ec2_instance_tags: '{"Name": "amljenkins"}'
+      ec2_instance_tags: '{"Name": "amlmp", "aml_env": "perf01"}'
       ec2_groups: ['aml_common', 'aml_tomcat_server']
       ec2_instance_type: m1.small
-      ansible_host_group: transient_ci_servers
+      ansible_host_group: transient_ozone_app
 
 - name: Setup Jenkins CI Servers
-  hosts: transient_ci_servers
+  hosts: transient_ozone_app
   user: ec2-user
   sudo: yes
   roles:
     - ../roles/common
-    - ../roles/ansible
-    - ../roles/mysql_client
     - role: ../roles/jre
       java_version: 6
-    - role: ../roles/jdk
-      java_version: 6
-    - ../roles/jenkins
+    - tomcat7
