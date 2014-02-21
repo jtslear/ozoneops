@@ -10,7 +10,7 @@
       ec2_instance_type: m1.small
       ansible_host_group: transient_ozone_app
 
-- name: Setup Jenkins CI Servers
+- name: Setup a tomcat server
   hosts: transient_ozone_app
   user: ec2-user
   sudo: yes
@@ -18,4 +18,7 @@
     - ../roles/common
     - role: ../roles/jre
       java_version: 6
-    - tomcat7
+    - ../roles/tomcat7
+    - role: ../roles/ozoneapp
+      app_url: 'http://amlci01.goss.owfgoss.org:8080/jenkins/view/wars/job/war-franchise-store/lastSuccessfulBuild/artifact/target/marketplace.war' 
+      app_name: 'mp'
