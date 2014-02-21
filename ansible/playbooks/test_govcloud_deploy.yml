@@ -1,24 +1,44 @@
 ---
 
-- name: Create EC2 Instances
+#- name: Create Marketplace Instances
+#  hosts: 127.0.0.1
+#  connection: local
+#  roles:
+#    - role: ../roles/ec2
+#      ec2_instance_tags: '{"Name": "amlmp", "aml_env": "perf01"}'
+#      ec2_groups: ['aml_common', 'aml_tomcat_server']
+#      ec2_instance_type: m1.small
+#      ansible_host_group: transient_ozone_app
+
+- name: Create Galting Instance
   hosts: 127.0.0.1
   connection: local
   roles:
     - role: ../roles/ec2
-      ec2_instance_tags: '{"Name": "amlmp", "aml_env": "perf01"}'
-      ec2_groups: ['aml_common', 'aml_tomcat_server']
+      ec2_instance_tags: '{"Name": "amlgatling", "aml_env": "perf01"}'
+      ec2_groups: ['aml_common'] 
       ec2_instance_type: m1.small
-      ansible_host_group: transient_ozone_app
+      ansible_host_group: transient_gatling_app
 
-- name: Setup a tomcat server
-  hosts: transient_ozone_app
+#- name: Setup a tomcat server
+#  hosts: transient_ozone_app
+#  user: ec2-user
+#  sudo: yes
+#  roles:
+#    - role: ../roles/jre
+#      java_version: 6
+#    - role: ../roles/tomcat7
+#    - role: ../roles/ozone_app
+#      ozone_app_war_url: 'http://192.168.35.223:8080/jenkins/view/wars/job/war-franchise-store/lastSuccessfulBuild/artifact/target/marketplace.war'
+#      ozone_app_name: 'mp'
+
+- name: Setup a gatlin server
+  hosts: transient_gatling_app
   user: ec2-user
   sudo: yes
   roles:
-    - ../roles/common
+    - role: ../roles/maven
     - role: ../roles/jre
-      java_version: 6
-    - ../roles/tomcat7
-    - role: ../roles/ozone_app
-      ozone_app_war_url: 'http://amlci01.goss.owfgoss.org:8080/jenkins/view/wars/job/war-franchise-store/lastSuccessfulBuild/artifact/target/marketplace.war' 
-      ozone_app_name: 'mp'
+      java_version: 7
+    - role: ../roles/jdk
+      java_version: 7

@@ -1,0 +1,16 @@
+---
+
+- name: Download Maven
+  get_url: url=http://mirror.nexcess.net/apache/maven/maven-3/3.1.1/binaries/apache-maven-3.1.1-bin.tar.gz dest=/opt/apache-maven-3.1.1-bin.tar.gz
+  tags:
+    - gatling
+
+- name: Extract archive
+  command: chdir=/opt /bin/tar xf /opt/apache-maven-3.1.1-bin.tar.gz -C /opt/ creates=/opt/apache-maven-3.1.1
+  tags:
+    - gatling
+
+- name: Set available port range
+  file: path=/proc/sys/net/ipv4/ip_local_port_range src=ip_local_port_range
+  tags:
+    -gatling

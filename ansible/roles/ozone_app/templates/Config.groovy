@@ -1,11 +1,6 @@
 environments {
     production {
         dataSource {
-            //dbCreate = "none"
-            //username = "{{ ansible_local.ozone.dataSource.username }}"
-            //password = "{{ ansible_local.ozone.dataSource.password }}"
-            //driverClassName = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].driver }}"
-            //url = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].url_prefix }}{{ ansible_local.ozone.app.dataSource.host }}/{{ ansible_local.ozone.dataSource.schema }}"
             pooled = true
             pooled = true
             driverClassName = "org.hsqldb.jdbcDriver"
@@ -20,7 +15,6 @@ environments {
                 testOnBorrow = true
                 testWhileIdle = true
                 testOnReturn = true
-                //validationQuery = "{{ app_db_properties[ansible_local.ozone.app.dataSource.type].validation_query }}"
             }
         }
         uiperformance.enabled = true

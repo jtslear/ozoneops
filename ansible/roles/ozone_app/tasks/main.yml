@@ -19,13 +19,13 @@
         path=/opt/ozone_store/searchable-index/
         owner=tomcat
         group=tomcat
-        mode=0660
-  when: ozone_app_name is 'mp'
+        mode=0750
+  when: ozone_app_name == 'mp'
   tags:
     - ozone_app
 
 - name: Install security context configuration
-  template: src={{ app_security_context[ozone_app_name].file }}
+  template: src={{ app_security_context.sample_basic.file }}
             dest=/usr/share/tomcat/lib/{{ app_properties[ozone_app_name].security_file }}
             owner=tomcat
             group=tomcat
@@ -86,7 +86,7 @@
     - ozone_app_war
 
 - name: Install the ozone app war file from local filesystem
-  get_url: url=ozone_app_war_url
+  get_url: url={{ ozone_app_war_url }}
        dest=/usr/share/tomcat/webapps/{{ app_properties[ozone_app_name].default_context }}.war
        owner=tomcat
        group=tomcat
