@@ -1,14 +1,14 @@
 ---
 
 - name: Ensure the app server is started before attempting to shut it down
-  wait_for: port={{ ansible_local.webapp_server.wait_port }}
+  wait_for: port=8005
   tags:
     - ozone_app
     - ozone_app_config
     - ozone_app_war
 
 - name: Stop the app server
-  service: state=stopped name={{ ansible_local.webapp_server.service_name }}
+  service: state=stopped name=tomcat
   tags:
     - ozone_app
     - ozone_app_config
@@ -17,18 +17,18 @@
 - name: Ensure elastic search index location exists if needed
   file: state=directory
         path=/opt/ozone_store/searchable-index/
-        owner={{ ansible_local.webapp_server.owner }}
-        group={{ ansible_local.webapp_server.group }}
+        owner=tomcat
+        group=tomcat
         mode=0660
-  when: ansible_local.ozone.app.name is 'mp'
+  when: {{ ozone_app_name }} is 'mp'
   tags:
     - ozone_app
 
 - name: Install security context configuration
-  template: src={{ app_security_context[ansible_local.ozone.app.security].file }}
-            dest={{ ansible_local.webapp_server.classpath }}/{{ app_properties[ansible_local.ozone.app.name].security_file }}
-            owner={{ ansible_local.webapp_server.owner }}
-            group={{ ansible_local.webapp_server.group }}
+  template: src={{ app_security_context[ozone_app_name].file }}
+            dest=/usr/share/tomcat/lib/{{ app_properties[ozone_app_name].security_file }}
+            owner=tomcat
+            group=tomcat
             mode=0660
   tags:
     - ozone_app
@@ -36,9 +36,9 @@
 
 - name: Install external application configuration
   template: src=Config.groovy
-            dest={{ ansible_local.ozone.app.ext_config_path }}/{{ app_properties[ansible_local.ozone.app.name].external_config_file }}
-            owner={{ ansible_local.webapp_server.owner }}
-            group={{ ansible_local.webapp_server.group }}
+            dest=/usr/share/tomcat/lib/{{ app_properties[ozone_app_name].external_config_file }}
+            owner=tomcat
+            group=tomcat
             mode=0660
   tags:
     - ozone_app
@@ -46,9 +46,9 @@
 
 - name: Install Ozone configuration
   template: src=OzoneConfig.properties
-            dest={{ ansible_local.ozone.app.ext_config_path }}/OzoneConfig.properties
-            owner={{ ansible_local.webapp_server.owner }}
-            group={{ ansible_local.webapp_server.group }}
+            dest=/usr/share/tomcat/lib/OzoneConfig.properties
+            owner=tomcat
+            group=tomcat
             mode=0660
   tags:
     - ozone_app
@@ -56,63 +56,54 @@
 
 - name: Install ehcache configuration
   template: src=ehcache.xml
-            dest={{ ansible_local.webapp_server.classpath }}/ehcache.xml
-            owner={{ ansible_local.webapp_server.owner }}
-            group={{ ansible_local.webapp_server.group }}
+            dest=/usr/share/tomcat/lib/ehcache.xml
+            owner=tomcat
+            group=tomcat
             mode=0660
   tags:
     - ozone_app
     - ozone_app_config
 
-- name: Install JDBC driver
-  get_url: url={{ app_db_properties[ansible_local.ozone.app.dataSource.type].driver_url }}
-           dest={{ ansible_local.webapp_server.classpath }}/jdbcDriver.jar
-           owner={{ ansible_local.webapp_server.owner }}
-           group={{ ansible_local.webapp_server.group }}
-           mode=0660
-  tags:
-    - ozone_app
-
 - name: Ensure the app server is stopped before replacing the war file
-  wait_for: state=stopped port={{ ansible_local.webapp_server.wait_port }}
+  wait_for: state=stopped port=8005
   tags:
     - ozone_app
     - ozone_app_war
     - ozone_app_config
 
 - name: Register list of files in the webapps directory
-  command: ls -1 {{ ansible_local.webapp_server.webapp_path }}
+  command: ls -1 /usr/share/tomcat7/webapps
   register: webapp_files
   tags:
     - ozone_app
     - ozone_app_war
 
 - name: Remove the webapp files
-  file: state=absent path={{ ansible_local.webapp_server.webapp_path }}/{{ item }}
+  file: state=absent path=/usr/share/tomcat/webapps/{{ item }}
   with_items: webapp_files.stdout_lines
   tags:
     - ozone_app
     - ozone_app_war
 
 - name: Install the ozone app war file from local filesystem
-  copy: src={{ ansible_local.ozone.war.local_src_path }}
-        dest={{ ansible_local.webapp_server.webapp_path }}/{{ app_properties[ansible_local.ozone.app.name].default_context }}.war
-        owner={{ ansible_local.webapp_server.owner }}
-        group={{ ansible_local.webapp_server.group }}
-        mode=0644
+  get_url: url=ozone_app_war_url
+       dest=/usr/share/tomcat/webapps/{{ app_properties[ozone_app_name].default_context }}.war
+       owner=tomcat
+       group=tomcat
+       mode=0644
   tags:
     - ozone_app
     - ozone_app_war
 
 - name: Start the app server
-  service: state=started name={{ ansible_local.webapp_server.service_name }}
+  service: state=started name=tomcat
   tags:
     - ozone_app
     - ozone_app_war
     - ozone_app_config
 
 - name: Ensure the app server is started before continuing
-  wait_for: port={{ ansible_local.webapp_server.wait_port }}
+  wait_for: port=8005
   tags:
     - ozone_app
     - ozone_app_war

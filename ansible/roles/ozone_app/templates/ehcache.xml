@@ -2,7 +2,7 @@
 
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="ehcache.xsd"
-         {% if ansible_local.ozone.app.name == "owf"%}
+         {% if ozone_app_name == "owf"%}
          name="owf-cache"
          updateCheck="false"
          {% endif %} >
@@ -20,7 +20,7 @@
                   properties="peerDiscovery=manual,rmiUrls=//127.0.0.1:4001" />
 
 
-    {% if ansible_local.ozone.app.name == "mp" %}
+    {% if ozone_app_name == "mp" %}
     <defaultCache maxElementsInMemory="100000"
                   eternal="false"
                   timeToLiveSeconds="1200"
@@ -40,7 +40,7 @@
     </cache>
     {% endif %}
 
-    {% if ansible_local.ozone.app.name == "owf" %}
+    {% if ozone_app_name == "owf" %}
     <defaultCache
         maxElementsInMemory="10000"
         eternal="false"

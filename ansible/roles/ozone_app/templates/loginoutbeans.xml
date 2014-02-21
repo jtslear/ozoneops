@@ -3,11 +3,11 @@
     <constructor-arg index="0" type="org.springframework.security.web.authentication.logout.LogoutSuccessHandler">
     	<bean class="ozone.security.logout.OzoneLogoutSuccessHandler">
     		<!-- DEFAULT SUCCESS LOGOUT URL -->
-            {% if ansible_local.ozone.app.name == "owf" %}
+            {% if ozone_app_name == "owf" %}
     		<constructor-arg index="0" type="java.lang.String" value="/logout.jsp"  />
             {% endif %}
 
-            {% if ansible_local.ozone.app.name == "mp" %}
+            {% if ozone_app_name == "mp" %}
             <constructor-arg index="0" type="java.lang.String" value="/logoutSuccess.gsp"  />
             {% endif %}
     		<!-- IF CAS, USE THIS SUCCESS LOGOUT URL -->

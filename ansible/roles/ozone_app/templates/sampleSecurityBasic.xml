@@ -11,11 +11,11 @@
         <sec:intercept-url pattern="/unauthorized.jsp" filters="none" />
         <sec:intercept-url pattern="/cas*.jsp" filters="none" />
 
-        {% if ansible_local.ozone.app.name == "owf" %}
+        {% if ozone_app_name == "owf" %}
         {% include "owf_filters.xml" %}
         {% endif %}
 
-        {% if ansible_local.ozone.app.name == "mp" %}
+        {% if ozone_app_name == "mp" %}
         {% include "marketplace_filters.xml" %}
         {% endif %}
 
