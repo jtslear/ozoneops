@@ -72,7 +72,7 @@
     - ozone_app_config
 
 - name: Register list of files in the webapps directory
-  command: ls -1 /usr/share/tomcat7/webapps
+  command: ls -1 /usr/share/tomcat/webapps
   register: webapp_files
   tags:
     - ozone_app
